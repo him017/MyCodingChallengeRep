@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <project basedir="."  name="WilliamsProject" default="jar">
+    <property name="target"         value="1.8"/>
+    <property name="source"         value="1.8"/>
+  	<property name="src.dir"        value="src"/>
+  	<property name="build.dir"      value="build"/>
+  	<property name="classes.dir"    value="${build.dir}/classes"/>
+  	<property name="dist.dir"       value="dist"/>
+  	<property name="jar.dir"        value="${dist.dir}\jar"/>
+  	<property name="jar.name"       value="${jar.dir}\WilliamsProject.jar"/>
+  	<property name="main-class"     value="com.williams.TestMainChallenge"/>
+  		
+  	
+    <target name="init" description="create classes dir">
+        <mkdir dir="${classes.dir}"/>
+    </target>
+    
+  	<target name="clean" description="delete build and dist dir">
+        <delete dir="${build.dir}"/>
+    	<delete dir="${dist.dir}" />
+    </target>
+
+  	<target name="compile" depends="clean,init" description="compile java classes">    	
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac destdir="${classes.dir}" srcdir="src" source="${source}" target="${target}"/>
+    </target>
+  	
+  	<target name="jar" depends="compile" description="package jar">
+  	   <jar destfile="${jar.name}" basedir="${classes.dir}">
+  	        <manifest>
+  	           <attribute name="Main-Class" value="${main-class}"/>
+  	        </manifest>
+  	   </jar>
+  		<delete dir="${build.dir}" />
+  	</target>
+
+  	<target name="run" description="Run Main Class">
+  	   <java jar="${jar.name}" fork="true"/>
+  	</target>
+  	
+  	<target name="clean-build" depends="clean,jar" description="clean,jar"/>
+  	<target name="main" depends="run" description="Run Main Class"/>
+
+ </project>
